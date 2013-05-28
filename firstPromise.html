@@ -1,0 +1,53 @@
+<html>
+
+	<head>
+
+	</head>
+
+	<body>
+	</body>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+	<script>
+		var x;
+		(function($){
+			var deferred = new $.Deferred();
+	        var promise = deferred.promise();
+
+	        console.log(promise.state());  // "pending"
+	        deferred.reject();
+	        console.log(promise.state());  // "rejected"
+
+	        function someAsyncFunction() {
+	        	var def = new $.Deferred();
+	        	console.log('running...');
+	        	setTimeout(function(){
+	        		def.resolve();
+	        	},5000);
+	        	return def;
+	        }
+
+	       /* x = someAsyncFunction();
+
+	        x.then(function(){
+	        	return someAsyncFunction();
+	        });
+*/
+			x = $.when(
+				someAsyncFunction(),
+				someAsyncFunction());
+	        x.done(function(){
+	        	console.log('Success!');
+	        });
+
+	        x.fail(function(){
+	        	console.log('Fail!');
+	        });
+
+	        x.always(function(){
+	        	console.log('I always run');
+	        });
+
+		})(jQuery);
+	</script>
+</html>
