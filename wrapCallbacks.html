@@ -1,0 +1,70 @@
+<html>
+
+	<head>
+
+	</head>
+
+	<body>
+	</body>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+	<script>
+		(function($){
+			function someAsyncFunction(data,callback) {
+				callback = callback || function(){};
+
+			    setTimeout(function() {
+			        callback(null,data);
+			    }, 1000);
+			}
+			function someAsyncFunction2(data, callback) {
+				callback = callback || function(){};
+
+			    setTimeout(function() {
+			        callback(null,data);
+			    }, 1000);
+			}
+			function anotherAsyncFunction(data, callback) {
+				callback = callback || function(){};
+
+			    setTimeout(function() {
+			        callback(null,data);
+			    }, 1000);
+			}
+
+			/* Originally from http://howtonode.org/promises */
+			function promisify(nodeAsyncFn, context) {
+
+				var defer = $.Deferred(),
+					args = Array.prototype.slice.call(arguments,1);
+				args.push(function(err,val){
+					if (err) {
+						return defer.reject(err);
+					}
+					return defer.resolve(val);
+				});
+				nodeAsyncFn.apply(context || {},args);
+
+				return defer.promise();
+			};
+
+			promisify(someAsyncFunction,'Good')
+			.then(function(val) {
+				console.log(val);
+				return promisify(someAsyncFunction2,'News');
+			})
+			.then(function(val){
+				console.log(val);
+				return promisify(anotherAsyncFunction,'Everyone!');
+			})
+			.done(function(val) {
+				console.log(val);
+			})
+			.fail(function(err) {
+				console.log(err.statusText);
+			})
+
+
+		})(jQuery);
+	</script>
+</html>
