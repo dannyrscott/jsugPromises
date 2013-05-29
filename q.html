@@ -24,10 +24,6 @@
 				)
 				.then(function(){
 					return ship.crew.Leela.plotCourse();
-				},
-				function(err){
-					console.log('i failed');
-					return err.statusText;
 				})
 				.fail(function(err){
 					//Handle the error
@@ -42,11 +38,7 @@
 				var ship = new Ship();
 				Q.fcall(ship.crew.Fry.loadDelivery)
 				.then(ship.crew.Bender.prepareMeal)
-				.then(ship.crew.Leela.plotCourse,
-				function(err){
-					console.log('i failed');
-					return err.statusText;
-				})
+				.then(ship.crew.Leela.plotCourse)
 				.fail(function(err){
 					//Handle the error
 					throw new Error(err.statusText);
