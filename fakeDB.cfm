@@ -1,9 +1,12 @@
-<cfset sleep(5000)/>
+
 
 <cfheader statuscode="200" statustext="Success" />
 
 <cfparam name="url.error" default="false"/>
 <cfparam name="url.text" default=""/>
+<cfparam name="url.wait" default="5"/>
+
+<cfset sleep(url.wait * 1000)/>
 
 <cfif url.error>
 	<cfthrow message="stuff done broke"/>
