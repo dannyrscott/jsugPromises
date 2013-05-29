@@ -2,11 +2,13 @@
 
 <cfheader statuscode="200" statustext="Success" />
 
-<!--- <cfset x = randRange(1,100)/>
-<cfif  x lt 200>
-	<cfthrow message="stuff done broke - #x#"/>
-</cfif> --->
-<cfset data = {}/>
+<cfparam name="url.error" default="false"/>
+<cfparam name="url.text" default=""/>
+
+<cfif url.error>
+	<cfthrow message="stuff done broke"/>
+</cfif>
+<cfset data = {text = url.text}/>
 <cfset responseString = serializeJSON( data ) />
 <cfset responseBinary = toBinary( toBase64( responseString ) ) />
 

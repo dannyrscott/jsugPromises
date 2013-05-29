@@ -18,6 +18,7 @@ var Ship = function() {
 			prepareMeal: function() {
 				console.log('preparing meal');
 				return $.ajax({
+					data: {error:false},
 					url: 'fakeDB.cfm',
 					type: "GET",
 					dataType: "json"
@@ -28,6 +29,7 @@ var Ship = function() {
 			plotCourse: function() {
 				console.log('plotting course');
 				return $.ajax({
+					data: {error:false},
 					url: 'fakeDB.cfm',
 					type: "GET",
 					dataType: "json"
@@ -47,12 +49,12 @@ $(document).ready(function(){
 
 	ship.crew.Fry.loadDelivery()
 	.then(function(){
-		return ship.crew.Bender.prepareMeal()
+		return ship.crew.Bender.prepareMeal();
 	})
 	.then(function(){
-		return ship.crew.Leela.plotCourse()
+		return ship.crew.Leela.plotCourse();
 	})
-	.fail(function(){
+	.fail(function(err){
 		//Handle the error
 		throw new Error(err.statusText);
 	})
@@ -65,7 +67,7 @@ $(document).ready(function(){
 	// 	ship.crew.Leela.plotCourse(),
 	// 	ship.crew.Fry.loadDelivery()
 	// )
-	// .fail(function(){
+	// .fail(function(err){
 	// 	//Handle the error
 	// 	throw new Error(err.statusText);
 	// })

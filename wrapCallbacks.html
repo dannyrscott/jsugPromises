@@ -33,7 +33,7 @@
 			}
 
 			/* Originally from http://howtonode.org/promises */
-			function promisify(nodeAsyncFn, context) {
+			function promisify(AsyncFn, context) {
 
 				var defer = $.Deferred(),
 					args = Array.prototype.slice.call(arguments,1);
@@ -43,7 +43,7 @@
 					}
 					return defer.resolve(val);
 				});
-				nodeAsyncFn.apply(context || {},args);
+				AsyncFn.apply(context || {},args);
 
 				return defer.promise();
 			};
