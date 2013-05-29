@@ -16,7 +16,7 @@ var Ship = function() {
 			prepareMeal: function() {
 				console.log('preparing meal');
 				return $.ajax({
-					data: {error:false,wait:10},
+					data: {error:true,wait:2},
 					url: 'fakeDB.cfm',
 					type: "GET",
 					dataType: "json"
@@ -42,35 +42,3 @@ var Ship = function() {
 }
 
 
-$(document).ready(function(){
-	var ship = new Ship();
-
-	ship.crew.Fry.loadDelivery()
-	.then(function(){
-		return ship.crew.Bender.prepareMeal();
-	}
-	)
-	.then(function(){
-		return ship.crew.Leela.plotCourse();
-	})
-	.fail(function(err){
-		//Handle the error
-		throw new Error(err.statusText);
-	})
-	.done(function(){
-		ship.takeOff();
-	});
-
-	// $.when(
-	// 	ship.crew.Bender.prepareMeal(),
-	// 	ship.crew.Leela.plotCourse(),
-	// 	ship.crew.Fry.loadDelivery()
-	// )
-	// .fail(function(err){
-	// 	//Handle the error
-	// 	throw new Error(err.statusText);
-	// })
-	// .done(function(){
-	// 	ship.takeOff();
-	// });
-});

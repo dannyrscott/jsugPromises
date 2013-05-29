@@ -1,0 +1,60 @@
+<html>
+	<script src="q.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<!--<script src="ship.js"></script>-->
+	<!--<script src="shipCallback.js"></script>-->
+	<script src="shipQ.js"></script>
+
+	<body>
+
+		<input type="button" class="_jquery" value="jQuery Version">
+		<input type="button" class="_q" value="Q Version">
+	</body>
+
+	<script>
+		(function($,Q){
+			$('._jquery').on('click',function(e){
+				e.preventDefault();
+				var ship = new Ship();
+
+				ship.crew.Fry.loadDelivery()
+				.then(function(){
+					return ship.crew.Bender.prepareMeal();
+				}
+				)
+				.then(function(){
+					return ship.crew.Leela.plotCourse();
+				},
+				function(err){
+					console.log('i failed');
+					return err.statusText;
+				})
+				.fail(function(err){
+					//Handle the error
+					throw new Error(err.statusText);
+				})
+				.done(function(){
+					ship.takeOff();
+				});
+			});
+			$('._q').on('click',function(e){
+				e.preventDefault();
+				var ship = new Ship();
+				Q.fcall(ship.crew.Fry.loadDelivery)
+				.then(ship.crew.Bender.prepareMeal)
+				.then(ship.crew.Leela.plotCourse,
+				function(err){
+					console.log('i failed');
+					return err.statusText;
+				})
+				.fail(function(err){
+					//Handle the error
+					throw new Error(err.statusText);
+				})
+				.done(function(){
+					ship.takeOff();
+				});
+			});
+		})(jQuery,Q)
+	</script>
+</html>
