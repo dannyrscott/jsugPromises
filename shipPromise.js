@@ -1,8 +1,5 @@
 var Ship = function() {
 
-	var loaded = false,
-		mealPrepared = false,
-		plotCourse = false;
 	this.crew = {
 		Fry: {
 			loadDelivery: function(cb) {
