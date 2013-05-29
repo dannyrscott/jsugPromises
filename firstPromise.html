@@ -9,44 +9,55 @@
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
 	<script>
-		var x;
 		(function($){
-			var deferred = new $.Deferred();
-	        var promise = deferred.promise();
+			function someAsyncFunction(data) {
+				 var def = $.Deferred();
 
-	        console.log(promise.state());  // "pending"
-	        deferred.reject();
-	        console.log(promise.state());  // "rejected"
+			    setTimeout(function() {
+			        def.resolve(null,data);
+			    }, 1000);
 
-	        function someAsyncFunction(x) {
-	        	var def = new $.Deferred();
-	        	console.log('running...');
-	        	setTimeout(function(){
-	        		console.log('i finished');
-	        		def.resolve();
-	        	},x);
-	        	return def.promise();
-	        }
+			    return def.promise();
+			}
+			function someAsyncFunction2(data) {
+				 var def = $.Deferred();
 
-	        x = someAsyncFunction(5000);
+			    setTimeout(function() {
+			        def.resolve(null,data);
+			    }, 1000);
 
-	        x.then(someAsyncFunction(1000));
+			    return def.promise();
+			}
+			function anotherAsyncFunction(data) {
+				 var def = $.Deferred();
+			    setTimeout(function() {
+			        def.resolve(null,data);
+			    }, 1000);
 
-			// x = $.when(
-			// 	someAsyncFunction(),
-			// 	someAsyncFunction());
-	        x.done(function(){
-	        	console.log('Success!');
-	        });
+			    return def.promise();
+			}
+			/*someAsyncFunction().then(
+			    function(value) {
+			        console.log(value);
+			    },
+			    function() { console.log("something went wrong"); }
+			);*/
 
-	        x.fail(function(){
-	        	console.log('Fail!');
-	        });
-
-	        x.always(function(){
-	        	console.log('I always run');
-	        });
-
+			someAsyncFunction('Good')
+			.then(function(err,val) {
+				console.log(val);
+				return someAsyncFunction2('News');
+			})
+			.then(function(err,val){
+				console.log(val);
+				return anotherAsyncFunction('Everyone!');
+			})
+			.done(function(err,val) {
+				console.log(val);
+			})
+			.fail(function(err) {
+				console.log(err.statusText);
+			});
 		})(jQuery);
 	</script>
 </html>

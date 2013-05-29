@@ -45,10 +45,13 @@ var Ship = function() {
 $(document).ready(function(){
 	var ship = new Ship();
 
-	var countdown = 2;
 	ship.crew.Fry.loadDelivery()
-	.then(ship.crew.Bender.prepareMeal())
-	.then(ship.crew.Leela.plotCourse())
+	.then(function(){
+		return ship.crew.Bender.prepareMeal()
+	})
+	.then(function(){
+		return ship.crew.Leela.plotCourse()
+	})
 	.fail(function(){
 		//Handle the error
 		throw new Error(err.statusText);
@@ -56,4 +59,17 @@ $(document).ready(function(){
 	.done(function(){
 		ship.takeOff();
 	});
+
+	// $.when(
+	// 	ship.crew.Bender.prepareMeal(),
+	// 	ship.crew.Leela.plotCourse(),
+	// 	ship.crew.Fry.loadDelivery()
+	// )
+	// .fail(function(){
+	// 	//Handle the error
+	// 	throw new Error(err.statusText);
+	// })
+	// .done(function(){
+	// 	ship.takeOff();
+	// });
 });
